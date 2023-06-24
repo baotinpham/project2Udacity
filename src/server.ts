@@ -57,11 +57,12 @@ import {filterImageFromURL, deleteLocalFiles, isValidUrl, getFilePathsFromDirect
     
   });
 
-  app.delete('/clearImages', async (req: Request, res: Response) => {
+  app.delete('/clear', async (req: Request, res: Response) => {
     const tmpDir = __dirname + '/util/tmp'
     const filePaths = await getFilePathsFromDirectory(tmpDir)
     deleteLocalFiles(filePaths)
-    res.status(204).send()
+    console.log('Clear images success!')
+    res.status(204).send({message: 'Clear images success!'})
   })
   
   // Start the Server
