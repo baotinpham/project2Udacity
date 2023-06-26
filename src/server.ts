@@ -41,8 +41,17 @@ import {filterImageFromURL, deleteLocalFiles, isValidUrl, getFilePathsFromDirect
   
 
   app.get("/filteredimage", async (req: Request, res: Response) => {
-    const imageUrl = req.query.image_url;
+    let imageUrl : string
+    
 
+    try {
+      if(typeof req.query['image_url'] === 'undefined' || req.query['image_url'].toString().trim().length === 0) {
+        return res.status(422).send("Missing Image URL")
+      }
+      imageUrl = new URL(req.query['image_url'].toString()).href
+    }catch {
+      return res.status(422).send("Invalid Image URL")
+    }
     if (!imageUrl) {
       return res.status(400).send({message: 'Please input image url'})
     }
